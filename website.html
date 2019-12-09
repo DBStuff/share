@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+    background-color: #545454;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.column {
+  float: left;
+  width: 25%;
+  padding: 0 10px;
+}
+
+.row {margin: 0 -5px;}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+@media screen and (max-width: 600px) {
+  .column {
+    width: 100%;
+    display: block;
+    margin-bottom: 20px;
+  }
+}
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 16px;
+  text-align: justify;
+  background-color: #f1f1f1;
+}
+
+.card-img-top {
+width: 100%;
+height: 40vh;
+object-fit: cover;
+}
+</style>
+</head>
+<body>
+
+<h2 style="color:white;">Southern Sierra Wildflower Club</h2>
+<p style="color:white;">Look at how pretty our website is!</p>
+
+<div class="row">
+
+   <!-- card1 -->
+  <div class="column">
+    <div class="card">
+        <div class="embed-responsive embed-responsive-16by9">
+           <img alt="Card image cap" class="card-img-top embed-responsive-item" src="./flower_pics/Alpine columbine.jpg" />
+        </div>
+        <div class="card-block">
+          <h4 class="card-title">Alpine Columbine</h4>
+          <p class="card-text">Fuck You</p>
+          <a href="./Update.html" class="btn btn-primary">Update Flower Info</a>
+          <a href="./Add_Sighting.html" class="btn btn-primary">Add Sighting</a>
+        </div>
+      </div>
+  </div>
+  
+  <!-- card2 -->
+  <div class="column">
+    <div class="card">
+      <h3>Card 3</h3>
+      <p>Some text</p>
+      <p>Some text</p>
+    </div>
+  </div>
+
+</div>  <!-- end column class -->
+
+</body>
+</html>
