@@ -1,27 +1,56 @@
 <!DOCTYPE html>
 <html>
+<head>
+</head>
 <style>
     body {
         margin: 50px;
         background-color: #525252;
         font-family: Arial, Helvetica, sans-serif;
     }
-</style>
-<form style="color:white;" action= ""> <!-- insert script name here -->
-    Genus:<br>
-    <input type="text" name="GENUS"><br>
-    <p></p>
+</style>=
+Genus:<br>
+<input type="text" name="GENUS" id="genus"><br>
+<p></p>
 
-    Species:<br>
-    <input type="text" name="SPECIES"><br>
-    <p></p>
+Species:<br>
+<input type="text" name="SPECIES" id="species"><br>
+<p></p>
 
-    Common Name:<br>
-    <input type="text" name="COMNAME"><br>
-    <p></p>
+Common Name:<br>
+<input type="text" name="COMNAME" id="comname"><br>
+<p></p>
 
-    <input type="submit" value="Submit">
-
-</form>
+<input type="submit" value="Submit" onclick="submit()">
 
 </html>
+<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
+<script>
+    var $_GET = {};
+    document.location.search.replace(/\??(?:([^=]+)=([^&]*)&?)/g, function () {
+        function decode(s) {
+            return decodeURIComponent(s.split("+").join(" "));
+        }
+
+        $_GET[decode(arguments[1])] = decode(arguments[2]);
+    });
+    $("#comname").val($_GET["comname"]);
+    $("#genus").val($_GET["genus"]);
+    $("#species").val($_GET["species"]);
+    var oldName = $_GET["comname"];
+    function submit(){
+        console.log("http://localhost:8888?action=updateFlower&comname="+document.getElementById("comname").value+"&species="+document.getElementById("species").value+"&genus="+document.getElementById("genus").value);
+        $.ajax({
+        url: "http://localhost:8888?action=updateFlower&comname="+document.getElementById("comname").value+"&species="+document.getElementById("species").value+"&genus="+document.getElementById("genus").value+"&oldName="+oldName,
+        beforeSend: function( xhr ) {
+            xhr.overrideMimeType( "text/plain; charset=x-user-defined" );
+        }
+        })
+        .done(function( data ) {
+            if ( console && console.log ) {
+            console.log( data);
+            }
+        });
+        window.location = "website.html";
+    }
+</script>

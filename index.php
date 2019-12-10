@@ -1,9 +1,13 @@
 <?php
+header('Access-Control-Allow-Origin: *');  
+header("Access-Control-Allow-Credentials: true");
+header("Access-Control-Allow-Methods: GET,HEAD,OPTIONS,POST,PUT");
+header("Access-Control-Allow-Headers: Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
 $db = new SQLite3('/Applications/MAMP/db/sqlite/flowers2019.db');
 if($_GET["action"] == "listFlowers"){
     $results = $db->query('SELECT * FROM FLOWERS;');
     while ($row = $results->fetchArray()) {
-        print json_encode($row);
+        print json_encode($row)."|";
     }
 }
 else if($_GET["action"] == "getSightings"){
@@ -13,7 +17,8 @@ else if($_GET["action"] == "getSightings"){
     }
 }
 else if($_GET["action"] == "updateFlower"){
-    $results = $db->query('UPDATE FLOWERS SET genus = "'.$_GET["genus"].'", species = "'.$_GET["species"].'", comname = "'.$_GET["comname"].'" WHERE comname = '.$_GET["name"]);
+    $results = $db->exec('UPDATE FLOWERS SET genus = "'.$_GET["genus"].'", species = "'.$_GET["species"].'", comname = "'.$_GET["comname"].'" WHERE comname = "'.$_GET["oldName"].'";');
+    print 'UPDATE FLOWERS SET genus = "'.$_GET["genus"].'", species = "'.$_GET["species"].'", comname = "'.$_GET["comname"].'" WHERE comname = "'.$_GET["oldName"].'";';
 }
 else if($_GET["action"] == "createSighting"){
     print "test";
