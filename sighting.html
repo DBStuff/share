@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<style>
+body {
+    margin:50px;
+    background-color: #525252;
+    font-family: Arial, Helvetica, sans-serif;
+}
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #7c7c7c;
+}
+</style>
+<body style="color: white">
+    <h1 id="title" style="margin-top: 0"></h1>
+    <img width="300px" height="300px"/>
+    <h2 style="margin-bottom: 0">Sightings:</h2><br>
+
+    <table id="list">
+        <tr>
+            <th>Location</th>
+            <th>Sighted By</th>
+            <th>Date</th>
+        </tr>
+    </table>
+</body>
+
+</html>
+<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
+<script>
+    var $_GET = {};
+    document.location.search.replace(/\??(?:([^=]+)=([^&]*)&?)/g, function () {
+        function decode(s) {
+            return decodeURIComponent(s.split("+").join(" "));
+        }
+
+        $_GET[decode(arguments[1])] = decode(arguments[2]);
+    });
+    document.getElementById("title").innerHTML = $_GET["name"];
+    $("img").attr({ "src": "http://localhost:8888/flower_pics/"+$_GET["name"]+".jpg" });
+    $(window).on('load', function(){
+    $.ajax({url: "http://localhost:8888/?action=getSightings&name='"+$_GET["name"]+"'", success: function(result){
+        var arr = result.split("|");
+        // console.log(arr);
+        for(var i = 0; i < arr.length-1; i++){
+            var obj = JSON.parse(arr[i]);
+            $("#list").append("<tr><td>"+obj["LOCATION"]+"</td><td>"+obj["PERSON"]+"</td><td>"+obj["SIGHTED"]+"</td></tr>");
+            console.log(obj);
+        }
+    }});
+});
+</script>

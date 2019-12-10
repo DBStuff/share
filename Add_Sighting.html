@@ -7,20 +7,48 @@
         font-family: Arial, Helvetica, sans-serif;
     }
 </style>
-<form style="color:white;" action= ""> <!-- insert script name here -->
+<body style="color: white">
     Name of Flower:<br>
-    <input type="text" name="Name"><br>
+    <input type="text" name="Name" id="name"><br>
     <p></p>
     Your Name:<br>
-    <input type="text" name="Person"><br>
+    <input type="text" name="Person" id="person"><br>
     <p></p>
     Location Sighted:<br>
-    <input type="text" name="Location"><br>
+    <input type="text" name="Location" id="location"><br>
     <p></p>
     Date:<br>
-    <input type="text" name="Date"><br>
+    <input type="date" name="Date" id="date" value="2006-07-22" max="2019-12-31"><br>
     <p></p>
-    <input type="submit" value="Submit">
-</form>
+    <input type="submit" value="Submit" onclick="submit()">
+<!-- </form> -->
+</body>
 
 </html>
+<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
+<script>
+    var $_GET = {};
+    document.location.search.replace(/\??(?:([^=]+)=([^&]*)&?)/g, function () {
+        function decode(s) {
+            return decodeURIComponent(s.split("+").join(" "));
+        }
+
+        $_GET[decode(arguments[1])] = decode(arguments[2]);
+    });
+    $("#name").val($_GET["name"]);
+    function submit(){
+        $.ajax({
+        url: "http://localhost:8888?action=createSighting&name="+document.getElementById("name").value+"&person="+document.getElementById("person").value+"&location="+document.getElementById("location").value+"&sighted="+document.getElementById("date").value,
+        beforeSend: function( xhr ) {
+            xhr.overrideMimeType( "text/plain; charset=x-user-defined" );
+        }
+        })
+        .done(function( data ) {
+            console.log("d");
+            if ( console && console.log ) {
+            console.log( data);
+            }
+        });
+        window.location = "website.html";
+    }
+</script>

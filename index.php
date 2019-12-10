@@ -13,20 +13,25 @@ if($_GET["action"] == "listFlowers"){
 else if($_GET["action"] == "getSightings"){
     $results = $db->query('SELECT * FROM SIGHTINGS WHERE name = '.$_GET["name"].' ORDER BY sighted DESC LIMIT 10;');
     while ($row = $results->fetchArray()) {
-        print json_encode($row);
+        print json_encode($row)."|";
     }
 }
 else if($_GET["action"] == "updateFlower"){
     $results = $db->exec('UPDATE FLOWERS SET genus = "'.$_GET["genus"].'", species = "'.$_GET["species"].'", comname = "'.$_GET["comname"].'" WHERE comname = "'.$_GET["oldName"].'";');
-    print 'UPDATE FLOWERS SET genus = "'.$_GET["genus"].'", species = "'.$_GET["species"].'", comname = "'.$_GET["comname"].'" WHERE comname = "'.$_GET["oldName"].'";';
+    $results = $db->exec('UPDATE SIGHTINGS SET name = "'.$_GET["comname"].'" WHERE name = "'.$_GET["oldName"].'";');
+    rename("flower_pics/".$_GET["oldName"].".jpg", "flower_pics/".$_GET["comname"].".jpg");
 }
 else if($_GET["action"] == "createSighting"){
-    print "test";
     $results = $db->exec('
         BEGIN TRANSACTION;
             INSERT INTO SIGHTINGS VALUES("'.$_GET["name"].'", "'.$_GET["person"].'", "'.$_GET["location"].'", "'.$_GET["sighted"].'");
         COMMIT;
         ');
+        print '
+        BEGIN TRANSACTION;
+            INSERT INTO SIGHTINGS VALUES("'.$_GET["name"].'", "'.$_GET["person"].'", "'.$_GET["location"].'", "'.$_GET["sighted"].'");
+        COMMIT;
+        ';
 }
 else if($_GET["action"] == "signup"){
     $password = password_hash($_GET["password"], PASSWORD_DEFAULT);
