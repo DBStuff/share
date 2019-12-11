@@ -3,8 +3,14 @@
 <style>
 
     body {
-        background-color: #545454;
+        background-image: url('./logingif.gif');
+        background-repeat: repeat;
+        background-size: cover;
+        height: 50vh;
+        padding: 0;
+        margin: 30px;
         font-family: Arial, Helvetica, sans-serif;
+        font-size: 25px;
     }
 </style>
 
@@ -15,29 +21,31 @@
 </head>
 
 <body>
-    <h1 style='color:white;' text-align="center"; font-size:20pt;>
+
+    <h1 style='color:white;' text-align="center" ; font-size:20pt;>
         Login Page
     </h1>
     <form style='color:white;' name="login">
         Username<input type="text" name="userid" />
+        <p></p>
         Password<input type="password" name="pswrd" />
+        <p></p>
         <input type="button" onclick="check(this.form)" value="Login" />
+        <p></p>
         <input type="reset" value="Cancel" />
     </form>
     <script language="javascript">
 
-function check(form)
-{
-  if(form.userid.value == "myuserid" && form.pswrd.value == "mypswrd")
-  {
-      window.open('website.html');
-      self.close()
-  }
-  else
-  {
-   alert("Error Password or Username")
-  }
-}
+        function check(form) {
+            if (form.userid.value == "myuserid" && form.pswrd.value == "mypswrd") {
+                localStorage.setItem('username', 'myuserid')
+                window.open('website.html');
+                self.close()
+            }
+            else {
+                alert("Error Password or Username")
+            }
+        }
     </script>
 </body>
 </html>
